@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "137978539038",
+    "project_id": "maharental-baca2",
+    "storage_bucket": "maharental-baca2.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:137978539038:android:fedac8109d0aaf3651520f",
+        "android_client_info": {
+          "package_name": "com.maharental.maharental_fix"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC0qqkA3Jc5zwe1vcDhijufRpfUMhxJf2U"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
