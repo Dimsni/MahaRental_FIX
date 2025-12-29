@@ -12,11 +12,15 @@ import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.UserProfileChangeRequest
 import com.google.firebase.auth.auth
+import com.google.firebase.firestore.FirebaseFirestore
 import com.maharental.maharental_fix.R
 
 class DaftarAkun : AppCompatActivity() {
 
     private lateinit var auth: FirebaseAuth
+    // Inisialisasi Firestore
+    private val db = FirebaseFirestore.getInstance()
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -68,35 +72,50 @@ class DaftarAkun : AppCompatActivity() {
     }
 
     private fun buatAkunBaru(nama: String, email: String, pass: String) {
-
         auth.createUserWithEmailAndPassword(email, pass)
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
-                    val user = auth.currentUser
-                    val profileUpdates = UserProfileChangeRequest.Builder()
-                        .setDisplayName(nama)
-                        .build()
+                    val userId = auth.currentUser?.uid
 
-                    user?.updateProfile(profileUpdates)
-                        ?.addOnCompleteListener {
-                            // Tampilkan pesan sukses
-                            Toast.makeText(
-                                this,
-                                "Pendaftaran berhasil, silakan login",
-                                Toast.LENGTH_SHORT
-                            ).show()
-
-                            // Logout dulu agar Login.kt tidak menganggap user sudah masuk
-                            auth.signOut()
-
-                            // Arahkan ke Login
-                            startActivity(Intent(this, com.maharental.maharental_fix.Login.LoginActivity::class.java))
-                            finishAffinity()
-                        }
+                    // Simpan ke Firestore
+                    simpanDataUserKeFirestore(userId, nama, email)
                 } else {
-                    Toast.makeText(this, "Gagal: ${task.exception?.message}", Toast.LENGTH_LONG)
-                        .show()
+                    Toast.makeText(this, "Gagal: ${task.exception?.message}", Toast.LENGTH_LONG).show()
                 }
+            }
+    }
+
+    private fun simpanDataUserKeFirestore(userId: String?, nama: String, email: String) {
+        if (userId == null) return
+
+        // Buat objek data (bisa pakai HashMap atau Data Class)
+        val userMap = hashMapOf(
+            "uid" to userId,
+            "nama" to nama,
+            "email" to email,
+            "role" to "customer", // Default role untuk MahaRental
+            "createdAt" to com.google.firebase.Timestamp.now()
+        )
+
+        // Simpan ke koleksi "users" dengan ID dokumen yang sama dengan UID Auth
+        db.collection("users")
+            .document(userId)
+            .set(userMap)
+            .addOnSuccessListener {
+                Toast.makeText(this, "Akun berhasil dibuat!", Toast.LENGTH_SHORT).show()
+
+                // Opsional: Tetap update Profile Auth agar sinkron
+                val profileUpdates = UserProfileChangeRequest.Builder()
+                    .setDisplayName(nama)
+                    .build()
+                auth.currentUser?.updateProfile(profileUpdates)
+
+                auth.signOut()
+                startActivity(Intent(this, LoginActivity::class.java))
+                finishAffinity()
+            }
+            .addOnFailureListener { e ->
+                Toast.makeText(this, "Gagal menyimpan ke Database: ${e.message}", Toast.LENGTH_SHORT).show()
             }
     }
 }
