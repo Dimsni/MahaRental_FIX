@@ -1,60 +1,119 @@
 package com.maharental.maharental_fix.fragment
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.appcompat.widget.SearchView
+import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.firebase.firestore.FirebaseFirestore
 import com.maharental.maharental_fix.R
+import com.maharental.maharental_fix.Kendaraan
+import com.maharental.maharental_fix.databinding.FragmentCariBinding
+import com.maharental.maharental_fix.katalog.KendaraanAdapter
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [CariFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class CariFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
+    private var _binding: FragmentCariBinding? = null
+    private val binding get() = _binding!!
+
+    private lateinit var adapterKendaraan: KendaraanAdapter
+    private val daftarKendaraan = ArrayList<Kendaraan>()
+    private lateinit var db: FirebaseFirestore
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_cari, container, false)
+    ): View {
+        _binding = FragmentCariBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment CariFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            CariFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        db = FirebaseFirestore.getInstance()
+
+        // 1. Setup RecyclerView dengan Callback Empty State
+        adapterKendaraan = KendaraanAdapter(daftarKendaraan) { isListEmpty ->
+            // Logika: Jika list kosong, tampilkan pesan. Jika tidak, sembunyikan.
+            if (isListEmpty) {
+                binding.tvKatalogKosong.visibility = View.VISIBLE
+                binding.rvKatalog.visibility = View.GONE
+            } else {
+                binding.tvKatalogKosong.visibility = View.GONE
+                binding.rvKatalog.visibility = View.VISIBLE
+            }
+        }
+
+        binding.rvKatalog.apply {
+            layoutManager = LinearLayoutManager(context)
+            adapter = adapterKendaraan
+        }
+
+        ambilDataKendaraan()
+
+        // 2. Logika Search (Sesuai String)
+        binding.kolomPencarian.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean = false
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                adapterKendaraan.filter(newText ?: "")
+                return true
+            }
+        })
+
+        // 3. Logika Tombol Back (Kembali ke Home)
+        binding.btnKembali.setOnClickListener {
+            // Arahkan kembali ke HomeFragment
+            parentFragmentManager.beginTransaction()
+                .replace(R.id.frame_layout, HomeFragment())
+                .commit()
+
+            // Pindahkan seleksi navbar bawah ke icon Home agar sinkron
+            activity?.findViewById<BottomNavigationView>(R.id.bottomNavigationView)?.selectedItemId = R.id.nav_home
+        }
+    }
+
+    private fun ambilDataKendaraan() {
+        db.collection("kendaraan")
+            .get()
+            .addOnSuccessListener { documents ->
+                val dataBaru = ArrayList<Kendaraan>()
+                for (document in documents) {
+                    val data = document.toObject(Kendaraan::class.java)
+                    dataBaru.add(data)
+                }
+                adapterKendaraan.updateData(dataBaru)
+
+                // Pastikan filter berjalan ulang jika user sudah mengetik sesuatu sebelum data loading selesai
+                val querySekarang = binding.kolomPencarian.query.toString()
+                if (querySekarang.isNotEmpty()) {
+                    adapterKendaraan.filter(querySekarang)
                 }
             }
+            .addOnFailureListener { exception ->
+                Toast.makeText(context, "Error: ${exception.message}", Toast.LENGTH_SHORT).show()
+            }
+    }
+
+    // --- Hide Bottom Navbar ---
+    override fun onResume() {
+        super.onResume()
+        activity?.findViewById<BottomNavigationView>(R.id.bottomNavigationView)?.visibility = View.GONE
+    }
+
+    override fun onPause() {
+        super.onPause()
+        activity?.findViewById<BottomNavigationView>(R.id.bottomNavigationView)?.visibility = View.VISIBLE
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }
