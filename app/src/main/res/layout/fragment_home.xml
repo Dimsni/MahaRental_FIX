@@ -88,14 +88,14 @@
                         android:layout_height="60dp"
                         android:background="@drawable/circle_background"
                         android:padding="12dp"
-                        android:src="@drawable/baseline_home_24"
+                        android:src="@drawable/outline_add_shopping_cart_24"
                         app:tint="@color/navy" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
-                        android:text="Lepas Kunci"
+                        android:text="Pesan Sekarang"
                         android:textColor="@color/black"
                         android:textSize="14sp"
                         android:textStyle="bold" />
@@ -114,14 +114,14 @@
                         android:layout_height="60dp"
                         android:background="@drawable/circle_background"
                         android:padding="12dp"
-                        android:src="@drawable/baseline_account_circle_24"
+                        android:src="@drawable/outline_article_24"
                         app:tint="@color/navy" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
-                        android:text="Dengan Driver"
+                        android:text="Syarat Sewa"
                         android:textColor="@color/black"
                         android:textSize="14sp"
                         android:textStyle="bold" />
@@ -136,7 +136,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
             android:layout_marginTop="32dp"
-            android:text="Promo Spesial Hari Ini"
+            android:text="Promo Spesial dan informasi Hari Ini"
             android:textColor="@color/black"
             android:textSize="18sp"
             android:textStyle="bold"
@@ -169,6 +169,29 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="280dp"
+                    android:layout_height="140dp"
+                    android:layout_marginEnd="16dp"
+                    app:cardCornerRadius="12dp"
+                    app:cardElevation="4dp">
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/ic_launcher_background"
+                        android:background="#9C27B0"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Voucher Pengguna Baru"
+                        android:textColor="@color/white"
+                        android:textStyle="bold"
+                        android:textSize="18sp"
+                        android:layout_gravity="bottom|start"
+                        android:layout_margin="16dp"/>
+                </androidx.cardview.widget.CardView>
 
                 <androidx.cardview.widget.CardView
                     android:layout_width="280dp"
