@@ -9,7 +9,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:paddingBottom="20dp">
 
         <View
@@ -22,27 +22,27 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
             android:text="Customer Service"
             android:textColor="@color/white"
             android:textSize="18sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="@+id/header_cs"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/header_cs"
-            android:layout_marginStart="16dp"/>
+            app:layout_constraintTop_toTopOf="@+id/header_cs" />
 
         <ImageView
             android:id="@+id/btn_close_cs"
             android:layout_width="40dp"
             android:layout_height="40dp"
+            android:layout_marginEnd="8dp"
             android:padding="8dp"
-            android:src="@drawable/baseline_logout_24"
-            app:tint="@color/white"
             android:rotation="180"
+            android:src="@drawable/baseline_logout_24"
             app:layout_constraintBottom_toBottomOf="@+id/header_cs"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/header_cs"
-            android:layout_marginEnd="8dp"/>
+            app:tint="@color/white" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -54,101 +54,136 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
                 android:text="Silakan hubungi salah satu nomor di bawah ini untuk bantuan:"
                 android:textColor="#757575"
-                android:textSize="14sp"
-                android:layout_marginBottom="16dp"/>
+                android:textSize="14sp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:padding="12dp"
-                android:background="#F5F5F5"
                 android:layout_marginBottom="8dp"
-                android:gravity="center_vertical">
+                android:background="#F5F5F5"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:padding="12dp">
+
                 <ImageView
                     android:layout_width="24dp"
                     android:layout_height="24dp"
                     android:src="@drawable/baseline_account_circle_24"
-                    app:tint="@color/navy"/>
+                    app:tint="@color/navy" />
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="0812-3456-7890 (Admin 1)"
+                    android:layout_marginStart="12dp"
+                    android:text="2300018326 (Admin 1)"
                     android:textColor="@color/black"
-                    android:textStyle="bold"
                     android:textSize="16sp"
-                    android:layout_marginStart="12dp"/>
+                    android:textStyle="bold" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:padding="12dp"
-                android:background="#F5F5F5"
                 android:layout_marginBottom="8dp"
-                android:gravity="center_vertical">
+                android:background="#F5F5F5"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:padding="12dp">
+
                 <ImageView
                     android:layout_width="24dp"
                     android:layout_height="24dp"
                     android:src="@drawable/baseline_account_circle_24"
-                    app:tint="@color/navy"/>
+                    app:tint="@color/navy" />
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="0857-1122-3344 (Admin 2)"
+                    android:layout_marginStart="12dp"
+                    android:text="2300018334 (Admin 2)"
                     android:textColor="@color/black"
-                    android:textStyle="bold"
                     android:textSize="16sp"
-                    android:layout_marginStart="12dp"/>
+                    android:textStyle="bold" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:padding="12dp"
-                android:background="#F5F5F5"
                 android:layout_marginBottom="8dp"
-                android:gravity="center_vertical">
+                android:background="#F5F5F5"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:padding="12dp">
+
                 <ImageView
                     android:layout_width="24dp"
                     android:layout_height="24dp"
                     android:src="@drawable/baseline_account_circle_24"
-                    app:tint="@color/navy"/>
+                    app:tint="@color/navy" />
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="0896-9988-7766 (Admin 3)"
+                    android:layout_marginStart="12dp"
+                    android:text="2300018335 (Admin 3)"
                     android:textColor="@color/black"
-                    android:textStyle="bold"
                     android:textSize="16sp"
-                    android:layout_marginStart="12dp"/>
+                    android:textStyle="bold" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:padding="12dp"
                 android:background="#F5F5F5"
-                android:gravity="center_vertical">
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:layout_marginBottom="8dp"
+                android:padding="12dp">
+
                 <ImageView
                     android:layout_width="24dp"
                     android:layout_height="24dp"
                     android:src="@drawable/baseline_account_circle_24"
-                    app:tint="@color/navy"/>
+                    app:tint="@color/navy" />
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="0813-5555-4444 (Pengaduan)"
+                    android:layout_marginStart="12dp"
+                    android:text="2300018336 (Pengaduan)"
                     android:textColor="@color/black"
-                    android:textStyle="bold"
                     android:textSize="16sp"
-                    android:layout_marginStart="12dp"/>
+                    android:textStyle="bold" />
             </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:background="#F5F5F5"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:padding="12dp">
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/baseline_account_circle_24"
+                    app:tint="@color/navy" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:text="2300018342 (CEO)"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
 
         </LinearLayout>
 
