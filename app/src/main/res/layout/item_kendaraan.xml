@@ -17,7 +17,7 @@
 
         <androidx.cardview.widget.CardView
             android:id="@+id/cardImage"
-            android:layout_width="352dp"
+            android:layout_width="match_parent"
             android:layout_height="210dp"
             app:cardCornerRadius="8dp"
             app:cardElevation="0dp"
@@ -36,7 +36,7 @@
             android:id="@+id/tvNamaKendaraan"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="28dp"
+            android:layout_marginTop="12dp"
             android:text="Nama Kendaraan"
             android:textColor="@color/black"
             android:textSize="18sp"
@@ -60,14 +60,50 @@
             android:id="@+id/tvHargaSewa"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="188dp"
-            android:layout_marginBottom="4dp"
+            android:layout_marginTop="8dp"
             android:text="Rp 000.000 / hari"
             android:textColor="#4CAF50"
             android:textSize="16sp"
             android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="@id/tvNamaKendaraan" />
+            app:layout_constraintStart_toStartOf="@id/tvNamaKendaraan"
+            app:layout_constraintTop_toBottomOf="@id/tvTipeKendaraan" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="12dp"
+            android:gravity="end"
+            app:layout_constraintTop_toBottomOf="@id/tvHargaSewa"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent">
+
+            <Button
+                android:id="@+id/btnDetailItem"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_marginEnd="8dp"
+                android:layout_weight="1"
+                android:text="Detail"
+                android:textSize="12sp"
+                android:textColor="#4CAF50"
+                android:backgroundTint="@color/white"
+                app:strokeColor="#4CAF50"
+                app:strokeWidth="1dp"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton" />
+
+            <Button
+                android:id="@+id/btnPesanItem"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_weight="1"
+                android:text="Pesan"
+                android:textSize="12sp"
+                android:backgroundTint="#4CAF50"
+                android:textColor="@color/white" />
+
+        </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
