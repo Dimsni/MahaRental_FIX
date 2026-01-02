@@ -1,14 +1,15 @@
 package com.maharental.maharental_fix.katalog
 
-import android.content.Intent // Pastikan ini diimport
+import android.content.Intent
 import android.os.Build
 import android.os.Bundle
-import android.widget.Toast
+import androidx.appcompat.app.AlertDialog // Import AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
 import com.maharental.maharental_fix.Kendaraan
 import com.maharental.maharental_fix.R
 import com.maharental.maharental_fix.databinding.ActivityDetailKendaraanBinding
+import com.maharental.maharental_fix.fragment.PesanMobilActivity
 import java.text.NumberFormat
 import java.util.Locale
 
@@ -54,22 +55,43 @@ class DetailKendaraanActivity : AppCompatActivity() {
                     tvDetailDeskripsi.text = "Tidak ada deskripsi untuk kendaraan ini."
                 }
 
-                // --- LOGIKA TOMBOL PESAN SEKARANG ---
+                // --- LOGIKA TOMBOL PESAN SEKARANG (MODIFIKASI) ---
                 btnPesanSekarang.setOnClickListener {
-                    // PENTING: Ganti 'BookingActivity::class.java' dengan nama activity teman Anda!
-                    // Contoh: val intent = Intent(this@DetailKendaraanActivity, BookingActivity::class.java)
-
-                    /* KODE UNTUK PINDAH (Hapus tanda komentar di bawah jika class teman sudah ada)
-
-                    val intentBooking = Intent(this@DetailKendaraanActivity, BookingActivity::class.java)
-                    intentBooking.putExtra("EXTRA_KENDARAAN", kendaraan) // Kirim data kendaraan ke halaman booking
-                    startActivity(intentBooking)
-                    */
-
-                    // Sementara pakai Toast dulu agar tidak error
-                    Toast.makeText(this@DetailKendaraanActivity, "Menuju halaman Booking...", Toast.LENGTH_SHORT).show()
+                    cekDanPesanKendaraan(kendaraan)
                 }
             }
         }
+    }
+
+    // Fungsi untuk mengecek tipe kendaraan dan menampilkan dialog jika perlu
+    private fun cekDanPesanKendaraan(kendaraan: Kendaraan) {
+        // Cek apakah tipe mengandung kata "Motor" (Huruf besar/kecil tidak masalah)
+        // Jika data kategori ada di field lain (misal: kendaraan.kategori), ganti 'kendaraan.tipe' dengan 'kendaraan.kategori'
+        if (kendaraan.tipe.contains("Motor", ignoreCase = true)) {
+            // Jika Motor, langsung pindah
+            bukaHalamanPesan(kendaraan, "Lepas Kunci") // Default motor biasanya lepas kunci
+        } else {
+            // Jika Mobil (Bukan Motor), tampilkan pilihan
+            tampilkanPilihanSewa(kendaraan)
+        }
+    }
+
+    private fun tampilkanPilihanSewa(kendaraan: Kendaraan) {
+        val opsiSewa = arrayOf("Lepas Kunci", "Dengan Driver")
+
+        val builder = AlertDialog.Builder(this)
+        builder.setTitle("Pilih Opsi Sewa")
+        builder.setItems(opsiSewa) { dialog, which ->
+            val pilihan = opsiSewa[which]
+            bukaHalamanPesan(kendaraan, pilihan)
+        }
+        builder.show()
+    }
+
+    private fun bukaHalamanPesan(kendaraan: Kendaraan, opsi: String) {
+        val intentBooking = Intent(this@DetailKendaraanActivity, PesanMobilActivity::class.java)
+        intentBooking.putExtra("EXTRA_KENDARAAN", kendaraan)
+        intentBooking.putExtra("EXTRA_OPSI_SEWA", opsi) // Mengirim pilihan ke halaman pesan
+        startActivity(intentBooking)
     }
 }

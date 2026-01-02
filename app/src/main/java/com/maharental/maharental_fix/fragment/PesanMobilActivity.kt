@@ -1,10 +1,12 @@
-package com.maharental.maharental_fix
+package com.maharental.maharental_fix.fragment
 
+import android.os.Build
 import android.os.Bundle
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.datepicker.MaterialDatePicker
+import com.maharental.maharental_fix.Kendaraan
 import com.maharental.maharental_fix.databinding.ActivityPesanMobilBinding
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -18,6 +20,31 @@ class PesanMobilActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityPesanMobilBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        // 1. Logika Judul Atas (Lepas Kunci / Driver)
+        val opsiSewa = intent.getStringExtra("EXTRA_OPSI_SEWA")
+        if (opsiSewa != null) {
+            binding.tvSubtitle.text = opsiSewa.uppercase(Locale.getDefault())
+        }
+
+        // 2. Logika Judul Booking (Motor / Minibus / Mobil)
+        val kendaraan = if (Build.VERSION.SDK_INT >= 33) {
+            intent.getParcelableExtra("EXTRA_KENDARAAN", Kendaraan::class.java)
+        } else {
+            @Suppress("DEPRECATION")
+            intent.getParcelableExtra("EXTRA_KENDARAAN")
+        }
+
+        if (kendaraan != null) {
+            val tipeLower = kendaraan.tipe.lowercase()
+            val kategoriLabel = when {
+                tipeLower.contains("motor") -> "Motor"
+                tipeLower.contains("minibus") -> "Minibus"
+                else -> "Mobil" // Default jika bukan motor/minibus
+            }
+            // Ubah teks Booking sesuai kategori
+            binding.tvBookingTitle.text = "Booking $kategoriLabel"
+        }
 
         setupLocationDropdowns()
         setupDatePickers()
@@ -103,14 +130,15 @@ class PesanMobilActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
+            // Pesan konfirmasi Checkout
             Toast.makeText(
                 this,
-                "Mencari mobil dari $tanggalAmbil sampai $tanggalKembali",
+                "Checkout berhasil! Menunggu pembayaran...",
                 Toast.LENGTH_SHORT
             ).show()
 
             // TODO:
-            // Intent ke halaman daftar mobil
+            // Lanjut ke proses pembayaran atau simpan ke Firestore
         }
     }
 }

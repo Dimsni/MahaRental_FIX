@@ -9,5 +9,7 @@ data class Kendaraan(
     var tipe: String = "",
     var harga: Long = 0,
     var gambar: String = "",
-    var deskripsi: String = ""
+    var deskripsi: String = "",
+
+    var jumlahUnit: Int = 1
 ) : Parcelable

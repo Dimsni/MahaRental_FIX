@@ -40,9 +40,7 @@ android {
     buildFeatures {
         viewBinding = true
     }
-    buildFeatures {
-        viewBinding = true// <-- View Binding sudah aktif
-    }
+
 }
 
 dependencies {
@@ -63,5 +61,8 @@ dependencies {
     implementation("com.google.firebase:firebase-auth-ktx")
     implementation("com.google.android.material:material:1.11.0")
     implementation("com.github.bumptech.glide:glide:4.16.0")
-    implementation("com.google.android.material:material:1.12.0")
+
+    testImplementation(libs.junit)
+    androidTestImplementation(libs.androidx.junit)
+    androidTestImplementation(libs.androidx.espresso.core)
 }

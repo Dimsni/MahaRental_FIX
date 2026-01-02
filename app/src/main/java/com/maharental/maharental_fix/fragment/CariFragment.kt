@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog // Import AlertDialog
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -16,6 +17,7 @@ import com.maharental.maharental_fix.Kendaraan
 import com.maharental.maharental_fix.databinding.FragmentCariBinding
 import com.maharental.maharental_fix.katalog.DetailKendaraanActivity
 import com.maharental.maharental_fix.katalog.KendaraanAdapter
+import com.maharental.maharental_fix.fragment.PesanMobilActivity
 
 class CariFragment : Fragment() {
 
@@ -50,15 +52,16 @@ class CariFragment : Fragment() {
             }
         }
 
-        // --- TAMBAHKAN BAGIAN INI AGAR BISA DIKLIK ---
+        // --- AKSI KLIK ITEM (DETAIL) ---
         adapterKendaraan.setOnItemClickCallback { kendaraanTerpilih ->
-            // Aksi saat item diklik: Pindah ke DetailKendaraanActivity
             val intent = Intent(requireContext(), DetailKendaraanActivity::class.java)
-
-            // Kirim data kendaraan
             intent.putExtra("EXTRA_KENDARAAN", kendaraanTerpilih)
-
             startActivity(intent)
+        }
+
+        // --- AKSI KLIK TOMBOL PESAN (MODIFIKASI: CEK KATEGORI & POPUP) ---
+        adapterKendaraan.setOnBookingClickCallback { kendaraanTerpilih ->
+            cekDanPesanKendaraan(kendaraanTerpilih)
         }
         // ---------------------------------------------
 
@@ -69,7 +72,7 @@ class CariFragment : Fragment() {
 
         ambilDataKendaraan()
 
-        // 2. Logika Search (Sesuai String)
+        // 2. Logika Search
         binding.kolomPencarian.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean = false
 
@@ -79,17 +82,43 @@ class CariFragment : Fragment() {
             }
         })
 
-        // 3. Logika Tombol Back (Kembali ke Home)
+        // 3. Logika Tombol Back
         binding.btnKembali.setOnClickListener {
-            // Arahkan kembali ke HomeFragment
             parentFragmentManager.beginTransaction()
                 .replace(R.id.frame_layout, HomeFragment())
                 .commit()
-
-            // Pindahkan seleksi navbar bawah ke icon Home agar sinkron
             activity?.findViewById<BottomNavigationView>(R.id.bottomNavigationView)?.selectedItemId = R.id.nav_home
         }
     }
+
+    // --- LOGIKA POPUP DAN PENGECEKAN MOTOR ---
+    private fun cekDanPesanKendaraan(kendaraan: Kendaraan) {
+        // Cek apakah tipe mengandung kata "Motor"
+        if (kendaraan.tipe.contains("Motor", ignoreCase = true)) {
+            // Langsung ke booking
+            bukaHalamanPesan(kendaraan, "Lepas Kunci")
+        } else {
+            // Tampilkan Dialog Pilihan
+            val opsiSewa = arrayOf("Lepas Kunci", "Dengan Driver")
+
+            // Menggunakan requireContext() karena ini di dalam Fragment
+            val builder = AlertDialog.Builder(requireContext())
+            builder.setTitle("Pilih Opsi Sewa")
+            builder.setItems(opsiSewa) { _, which ->
+                val pilihan = opsiSewa[which]
+                bukaHalamanPesan(kendaraan, pilihan)
+            }
+            builder.show()
+        }
+    }
+
+    private fun bukaHalamanPesan(kendaraan: Kendaraan, opsi: String) {
+        val intent = Intent(requireContext(), PesanMobilActivity::class.java)
+        intent.putExtra("EXTRA_KENDARAAN", kendaraan)
+        intent.putExtra("EXTRA_OPSI_SEWA", opsi) // Data pilihan dikirim ke Activity tujuan
+        startActivity(intent)
+    }
+    // ------------------------------------------
 
     private fun ambilDataKendaraan() {
         db.collection("kendaraan")
@@ -102,7 +131,6 @@ class CariFragment : Fragment() {
                 }
                 adapterKendaraan.updateData(dataBaru)
 
-                // Pastikan filter berjalan ulang jika user sudah mengetik sesuatu sebelum data loading selesai
                 val querySekarang = binding.kolomPencarian.query.toString()
                 if (querySekarang.isNotEmpty()) {
                     adapterKendaraan.filter(querySekarang)
@@ -113,7 +141,6 @@ class CariFragment : Fragment() {
             }
     }
 
-    // --- Hide Bottom Navbar ---
     override fun onResume() {
         super.onResume()
         activity?.findViewById<BottomNavigationView>(R.id.bottomNavigationView)?.visibility = View.GONE
