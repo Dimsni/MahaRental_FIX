@@ -33,15 +33,14 @@ class HomeFragment : Fragment() {
         // Binding ID dari Layout
         tvUsername = view.findViewById(R.id.tv_username_home)
 
-        // 1. Tombol Shopping Cart (Pesan Sekarang / Lepas Kunci)
-        val btnLepasKunci = view.findViewById<LinearLayout>(R.id.btn_lepas_kunci)
+        val btnLepasKunci = view.findViewById<LinearLayout>(R.id.btn_pesan_sekarang)
+        val btnPakeDriver = view.findViewById<LinearLayout>(R.id.btn_syarat_sewa)
 
-        // 2. Tombol Article (Syarat Sewa / Pake Driver)
-        val btnPakeDriver = view.findViewById<LinearLayout>(R.id.btn_pake_driver)
+        // 1. Tambahkan ID untuk tombol CS
+        val btnCS = view.findViewById<LinearLayout>(R.id.btn_customer_service)
 
         // LOGIKA KLIK: Shopping Cart -> Pindah ke Tab Cari (Search)
         btnLepasKunci.setOnClickListener {
-            // Mengakses BottomNavigationView di MainActivity untuk pindah tab
             val bottomNav = requireActivity().findViewById<BottomNavigationView>(R.id.bottomNavigationView)
             bottomNav.selectedItemId = R.id.nav_cari
         }
@@ -51,28 +50,48 @@ class HomeFragment : Fragment() {
             showSyaratSewaDialog()
         }
 
+        // 2. LOGIKA KLIK: Customer Service -> Munculkan Pop Up CS
+        btnCS.setOnClickListener {
+            showCustomerServiceDialog()
+        }
+
         return view
     }
 
-    // Fungsi untuk memunculkan Dialog Syarat Sewa sebagai Pop Up
     private fun showSyaratSewaDialog() {
         val dialog = Dialog(requireContext())
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.setContentView(R.layout.dialog_syarat_sewa)
 
-        // Mengatur background dialog menjadi transparan agar rounded corner CardView terlihat
         dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-
-        // Mengatur lebar dialog agar sesuai (match parent dengan sedikit margin bawaan Android)
         dialog.window?.setLayout(
             ViewGroup.LayoutParams.MATCH_PARENT,
             ViewGroup.LayoutParams.WRAP_CONTENT
         )
 
-        // Logika tombol Close (X) di dalam dialog
         val btnClose = dialog.findViewById<ImageView>(R.id.btn_close_dialog)
         btnClose.setOnClickListener {
-            dialog.dismiss() // Menutup dialog
+            dialog.dismiss()
+        }
+
+        dialog.show()
+    }
+
+    // 3. Fungsi Baru: Munculkan Dialog CS
+    private fun showCustomerServiceDialog() {
+        val dialog = Dialog(requireContext())
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setContentView(R.layout.dialog_customer_service) // Pastikan file layout ini sudah dibuat
+
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialog.window?.setLayout(
+            ViewGroup.LayoutParams.MATCH_PARENT,
+            ViewGroup.LayoutParams.WRAP_CONTENT
+        )
+
+        val btnClose = dialog.findViewById<ImageView>(R.id.btn_close_cs)
+        btnClose.setOnClickListener {
+            dialog.dismiss()
         }
 
         dialog.show()
