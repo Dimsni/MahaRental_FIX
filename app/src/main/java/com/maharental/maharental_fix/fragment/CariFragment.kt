@@ -1,7 +1,7 @@
 package com.maharental.maharental_fix.fragment
 
+import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,6 +14,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.maharental.maharental_fix.R
 import com.maharental.maharental_fix.Kendaraan
 import com.maharental.maharental_fix.databinding.FragmentCariBinding
+import com.maharental.maharental_fix.katalog.DetailKendaraanActivity
 import com.maharental.maharental_fix.katalog.KendaraanAdapter
 
 class CariFragment : Fragment() {
@@ -38,9 +39,8 @@ class CariFragment : Fragment() {
 
         db = FirebaseFirestore.getInstance()
 
-        // 1. Setup RecyclerView dengan Callback Empty State
+        // 1. Setup RecyclerView
         adapterKendaraan = KendaraanAdapter(daftarKendaraan) { isListEmpty ->
-            // Logika: Jika list kosong, tampilkan pesan. Jika tidak, sembunyikan.
             if (isListEmpty) {
                 binding.tvKatalogKosong.visibility = View.VISIBLE
                 binding.rvKatalog.visibility = View.GONE
@@ -49,6 +49,18 @@ class CariFragment : Fragment() {
                 binding.rvKatalog.visibility = View.VISIBLE
             }
         }
+
+        // --- TAMBAHKAN BAGIAN INI AGAR BISA DIKLIK ---
+        adapterKendaraan.setOnItemClickCallback { kendaraanTerpilih ->
+            // Aksi saat item diklik: Pindah ke DetailKendaraanActivity
+            val intent = Intent(requireContext(), DetailKendaraanActivity::class.java)
+
+            // Kirim data kendaraan
+            intent.putExtra("EXTRA_KENDARAAN", kendaraanTerpilih)
+
+            startActivity(intent)
+        }
+        // ---------------------------------------------
 
         binding.rvKatalog.apply {
             layoutManager = LinearLayoutManager(context)
