@@ -44,6 +44,10 @@
             android:name=".fragment.PesanMobilActivity"
             android:exported="false" />
 
+        <activity
+            android:name=".Konfir_PesanMobilActivity"
+            android:exported="false" />
+
     </application>
 
 </manifest>
