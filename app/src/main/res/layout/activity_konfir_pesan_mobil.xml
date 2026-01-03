@@ -26,14 +26,15 @@
             android:layout_width="match_parent"
             android:layout_height="200dp"
             android:src="@drawable/ic_launcher_background"
-            android:scaleType="centerCrop"
+            android:scaleType="fitCenter"
+            android:adjustViewBounds="true"
             android:layout_marginBottom="16dp"/>
 
         <TextView
             android:id="@+id/tv_car_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Toyota Fortuner 2025"
+            android:text="Nama Mobil"
             android:textSize="20sp"
             android:textStyle="bold"/>
 
@@ -48,7 +49,7 @@
             android:id="@+id/tv_car_price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Rp600.000"
+            android:text="Rp0"
             android:textSize="18sp"
             android:textStyle="bold"
             android:layout_marginBottom="24dp"/>
@@ -81,7 +82,7 @@
             android:hint="Pilih Tanggal"
             android:drawableEnd="@android:drawable/ic_menu_my_calendar"
             android:focusable="false"
-            android:layout_marginBottom="24dp"/>
+            android:layout_marginBottom="16dp"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -90,9 +91,10 @@
             android:textStyle="bold"/>
 
         <TextView
+            android:id="@+id/tv_lokasi_summary"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="UAD Kampus 1, UAD Kampus 4"
+            android:text="-"
             android:layout_marginBottom="24dp"/>
 
         <TextView
@@ -119,30 +121,29 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp">
             <TextView
+                android:id="@+id/tv_price_detail_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Rp600.000 x 2 hari"/>
-
+                android:text="Harga x Hari"/>
             <TextView
+                android:id="@+id/tv_price_detail_amount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Rp1.200.000"
+                android:text="Rp0"
                 android:layout_alignParentEnd="true"/>
         </RelativeLayout>
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp">
-
+            android:layout_marginBottom="8dp">
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Diskon"/>
-
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -160,17 +161,18 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="24dp">
-
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Total Amount"
+                android:textSize="18sp"
                 android:textStyle="bold"/>
-
             <TextView
+                android:id="@+id/tv_total_amount_value"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Rp1.200.000"
+                android:text="Rp0"
+                android:textSize="18sp"
                 android:textStyle="bold"
                 android:layout_alignParentEnd="true"/>
         </RelativeLayout>

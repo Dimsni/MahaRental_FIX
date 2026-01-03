@@ -48,6 +48,18 @@
             android:name=".Konfir_PesanMobilActivity"
             android:exported="false" />
 
+        <activity
+            android:name=".KonfirmasiPesananActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".CheckoutActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".BookingBerhasilActivity"
+            android:exported="false" />
+
     </application>
 
 </manifest>
