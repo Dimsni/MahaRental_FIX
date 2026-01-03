@@ -3,6 +3,7 @@ package com.maharental.maharental_fix.katalog
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
@@ -12,14 +13,26 @@ import com.maharental.maharental_fix.R
 import java.text.NumberFormat
 import java.util.Locale
 
-// Tambahkan parameter callback di constructor atau fungsi filter
 class KendaraanAdapter(
     private val daftarAsli: ArrayList<Kendaraan>,
-    // Callback untuk memberi tahu Fragment jika list kosong
     private val onEmptyState: (Boolean) -> Unit
 ) : RecyclerView.Adapter<KendaraanAdapter.KendaraanViewHolder>() {
 
     private var daftarTampil: ArrayList<Kendaraan> = ArrayList(daftarAsli)
+
+    // Listener navigasi ke halaman Detail
+    private var onItemClickCallback: ((Kendaraan) -> Unit)? = null
+
+    // Listener navigasi ke halaman Booking
+    private var onBookingClickCallback: ((Kendaraan) -> Unit)? = null
+
+    fun setOnItemClickCallback(onItemClickCallback: (Kendaraan) -> Unit) {
+        this.onItemClickCallback = onItemClickCallback
+    }
+
+    fun setOnBookingClickCallback(onBookingClickCallback: (Kendaraan) -> Unit) {
+        this.onBookingClickCallback = onBookingClickCallback
+    }
 
     init {
         updateList(daftarAsli)
@@ -30,6 +43,9 @@ class KendaraanAdapter(
         val txtNama: TextView = itemView.findViewById(R.id.tvNamaKendaraan)
         val txtTipe: TextView = itemView.findViewById(R.id.tvTipeKendaraan)
         val txtHarga: TextView = itemView.findViewById(R.id.tvHargaSewa)
+        // Inisialisasi kedua tombol
+        val btnDetail: Button = itemView.findViewById(R.id.btnDetailItem)
+        val btnPesan: Button = itemView.findViewById(R.id.btnPesanItem)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): KendaraanViewHolder {
@@ -52,6 +68,21 @@ class KendaraanAdapter(
             .placeholder(R.drawable.ic_launcher_background)
             .error(R.drawable.ic_launcher_background)
             .into(holder.imgGambar)
+
+        // Klik Tombol Detail -> Pindah ke DetailKendaraanActivity
+        holder.btnDetail.setOnClickListener {
+            onItemClickCallback?.invoke(daftarTampil[position])
+        }
+
+        // Klik Tombol Pesan -> Pindah ke BookingActivity (Halaman teman Anda)
+        holder.btnPesan.setOnClickListener {
+            onBookingClickCallback?.invoke(daftarTampil[position])
+        }
+
+        // Opsional: Klik pada gambar/card juga tetap membuka detail agar UX lebih mudah
+        holder.itemView.setOnClickListener {
+            onItemClickCallback?.invoke(daftarTampil[position])
+        }
     }
 
     override fun getItemCount(): Int {
@@ -72,7 +103,6 @@ class KendaraanAdapter(
             hasilFilter.addAll(daftarAsli)
         } else {
             for (item in daftarAsli) {
-                // Cari berdasarkan Nama atau Tipe
                 if (item.nama.lowercase(Locale.getDefault()).contains(teksPencarian) ||
                     item.tipe.lowercase(Locale.getDefault()).contains(teksPencarian)) {
                     hasilFilter.add(item)
@@ -87,8 +117,6 @@ class KendaraanAdapter(
         daftarTampil.addAll(listBaru)
         notifyDataSetChanged()
 
-        // PENTING: Cek apakah hasil filter kosong?
-        // Jika kosong, kirim 'true'. Jika ada isi, kirim 'false'.
         if (daftarTampil.isEmpty()) {
             onEmptyState(true)
         } else {

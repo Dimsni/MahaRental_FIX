@@ -40,7 +40,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:iconifiedByDefault="false"
-                app:queryHint="Cari Mobil atau Motor..."
+                app:queryHint="Cari Kendaraan..."
                 app:searchIcon="@drawable/baseline_search_24"
                 android:background="@android:color/transparent" />
 
