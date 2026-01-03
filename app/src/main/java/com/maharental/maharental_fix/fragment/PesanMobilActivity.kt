@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.maharental.maharental_fix.Kendaraan
 import com.maharental.maharental_fix.Konfir_PesanMobilActivity // Pastikan import ini ada
+import com.maharental.maharental_fix.KonfirmasiPesananActivity
 import com.maharental.maharental_fix.databinding.ActivityPesanMobilBinding
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -88,13 +89,11 @@ class PesanMobilActivity : AppCompatActivity() {
     // --- LOGIKA TOMBOL CHECKOUT (SAMBUNG KE KONFIRMASI) ---
     private fun setupButtons() {
         binding.btnCariMobil.setOnClickListener {
-
             val lokasiAmbil = binding.actvLokasiPengambilan.text.toString()
             val lokasiKembali = binding.actvLokasiPengembalian.text.toString()
             val tanggalAmbil = binding.etTanggalPengambilan.text.toString()
             val tanggalKembali = binding.etTanggalPengembalian.text.toString()
 
-            // Validasi Input
             if (lokasiAmbil.isEmpty() || lokasiKembali.isEmpty() ||
                 tanggalAmbil.isEmpty() || tanggalKembali.isEmpty()) {
                 Toast.makeText(this, "Lengkapi semua data terlebih dahulu", Toast.LENGTH_SHORT).show()
@@ -102,7 +101,7 @@ class PesanMobilActivity : AppCompatActivity() {
             }
 
             // Pindah ke Halaman Konfirmasi
-            val intentKonfirmasi = Intent(this, Konfir_PesanMobilActivity::class.java)
+            val intentKonfirmasi = Intent(this, KonfirmasiPesananActivity::class.java)
 
             // Kirim Data Booking
             intentKonfirmasi.putExtra("EXTRA_KENDARAAN", kendaraan)

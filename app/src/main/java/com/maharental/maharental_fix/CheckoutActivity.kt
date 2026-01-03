@@ -1,8 +1,10 @@
 package com.maharental.maharental_fix
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.widget.ArrayAdapter
+import android.widget.RadioButton
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.maharental.maharental_fix.databinding.ActivityCheckoutBinding
 
@@ -15,15 +17,25 @@ class CheckoutActivity : AppCompatActivity() {
         binding = ActivityCheckoutBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // Mengisi Spinner dengan contoh metode pembayaran
-        val methods = arrayOf("Credit Card", "Bank Transfer", "E-Wallet")
-        binding.spinnerPaymentMethod.adapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, methods)
+        binding.btnBack.setOnClickListener {
+            finish()
+        }
 
         binding.btnConfirm.setOnClickListener {
-            val intent = Intent(this, BookingBerhasilActivity::class.java)
-            // FLAG_ACTIVITY_CLEAR_TASK menghapus antrian activity agar user tidak bisa 'back' ke form bayar
-            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-            startActivity(intent)
+            val selectedId = binding.rgPaymentMethods.checkedRadioButtonId
+
+            if (selectedId != -1) {
+                val radioButton = findViewById<RadioButton>(selectedId)
+                val paymentMethodName = radioButton.text.toString()
+
+                // Mengirimkan data kembali ke Konfir_PesanMobilActivity
+                val resultIntent = Intent()
+                resultIntent.putExtra("SELECTED_PAYMENT", paymentMethodName)
+                setResult(Activity.RESULT_OK, resultIntent)
+                finish() // Menutup activity checkout dan kembali ke konfirmasi
+            } else {
+                Toast.makeText(this, "Silakan pilih metode pembayaran", Toast.LENGTH_SHORT).show()
+            }
         }
     }
 }

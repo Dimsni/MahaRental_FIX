@@ -14,11 +14,16 @@ class BookingBerhasilActivity : AppCompatActivity() {
         binding = ActivityBookingBerhasilBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        binding.btnReturnHome.setOnClickListener {
-            // Kembali ke KonfirmasiPesanan (Halaman Awal Alur Ini)
-            val intent = Intent(this, KonfirmasiPesananActivity::class.java)
+        binding.btnReturnHistory.setOnClickListener {
+            val intent = Intent(this, MainActivity::class.java)
+
+            // Mengirim instruksi ke MainActivity
+            intent.putExtra("GO_TO_HISTORY", true)
+
+            // Menghapus tumpukan activity agar saat di-back aplikasi langsung keluar
             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             startActivity(intent)
+            finish()
         }
     }
 }

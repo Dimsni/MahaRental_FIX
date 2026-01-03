@@ -1,6 +1,5 @@
 package com.maharental.maharental_fix
 
-
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
@@ -13,7 +12,6 @@ import com.maharental.maharental_fix.fragment.HistoryFragment
 import com.maharental.maharental_fix.fragment.HomeFragment
 import com.maharental.maharental_fix.fragment.ProfileFragment
 
-
 class MainActivity : AppCompatActivity() {
 
     private lateinit var auth: FirebaseAuth
@@ -21,17 +19,26 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        // Inisialisasi View Binding
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         auth = Firebase.auth
 
-        // 1. Set Fragment default saat aplikasi pertama kali dibuka
-        replaceFragment(HomeFragment())
+        // --- LOGIKA NAVIGASI OTOMATIS ---
+        val goToHistory = intent.getBooleanExtra("GO_TO_HISTORY", false)
 
-        // 2. Logika Klik pada BottomNavigationView
+        if (goToHistory) {
+            // Jika ada flag, langsung ke HistoryFragment dan set icon menu bawah
+            binding.bottomNavigationView.selectedItemId = R.id.nav_history
+            replaceFragment(HistoryFragment())
+        } else {
+            // Jika tidak ada flag (buka normal), tampilkan HomeFragment
+            if (savedInstanceState == null) { // Supaya tidak tertimpa saat rotasi layar
+                replaceFragment(HomeFragment())
+            }
+        }
+
+        // --- LOGIKA KLIK BOTTOM NAVIGATION ---
         binding.bottomNavigationView.setOnItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.nav_home -> {
@@ -55,12 +62,9 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    // Fungsi pembantu (helper) untuk mengganti Fragment
     private fun replaceFragment(fragment: Fragment) {
-        val fragmentManager = supportFragmentManager
-        val fragmentTransaction = fragmentManager.beginTransaction()
-        // 'frame_layout' adalah ID dari FrameLayout di activity_main.xml
-        fragmentTransaction.replace(R.id.frame_layout, fragment)
-        fragmentTransaction.commit()
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.frame_layout, fragment)
+            .commit()
     }
 }
