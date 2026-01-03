@@ -17,9 +17,7 @@ class CheckoutActivity : AppCompatActivity() {
         binding = ActivityCheckoutBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        binding.btnBack.setOnClickListener {
-            finish()
-        }
+        binding.btnBack.setOnClickListener { finish() }
 
         binding.btnConfirm.setOnClickListener {
             val selectedId = binding.rgPaymentMethods.checkedRadioButtonId
@@ -28,14 +26,17 @@ class CheckoutActivity : AppCompatActivity() {
                 val radioButton = findViewById<RadioButton>(selectedId)
                 val paymentMethodName = radioButton.text.toString()
 
-                // Mengirimkan data kembali ke Konfir_PesanMobilActivity
                 val resultIntent = Intent()
-                resultIntent.putExtra("SELECTED_PAYMENT", paymentMethodName)
+                resultIntent.putExtra(EXTRA_SELECTED_PAYMENT, paymentMethodName)
                 setResult(Activity.RESULT_OK, resultIntent)
-                finish() // Menutup activity checkout dan kembali ke konfirmasi
+                finish()
             } else {
                 Toast.makeText(this, "Silakan pilih metode pembayaran", Toast.LENGTH_SHORT).show()
             }
         }
+    }
+
+    companion object {
+        const val EXTRA_SELECTED_PAYMENT = "SELECTED_PAYMENT"
     }
 }

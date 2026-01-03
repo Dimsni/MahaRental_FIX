@@ -3,9 +3,9 @@ package com.maharental.maharental_fix.history
 import com.maharental.maharental_fix.Kendaraan
 
 object History {
-    val listHistory = ArrayList<Kendaraan>()
+    val listHistory: MutableList<Kendaraan> = mutableListOf()
 
-    fun addHistory(kendaraan: Kendaraan) {
-        listHistory.add(kendaraan)
+    fun add(item: Kendaraan) {
+        listHistory.add(0, item) // terbaru di atas
     }
 }

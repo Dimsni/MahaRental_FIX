@@ -34,7 +34,8 @@ class HistoryAdapter(private val listHistory: List<Kendaraan>) :
         holder.txtTipe.text = data.tipe
 
         val formatRupiah = NumberFormat.getCurrencyInstance(Locale("id", "ID"))
-        holder.txtHarga.text = formatRupiah.format(data.harga)
+        holder.txtHarga.text = "Total: " + formatRupiah.format(data.harga)
+
 
         Glide.with(holder.itemView.context)
             .load(data.gambar)
