@@ -6,14 +6,6 @@ plugins {
 }
 
 android {
-    signingConfigs {
-        getByName("debug") {
-            storeFile = file("C:\\MyKeystore\\MahaRental.jks")
-            storePassword = "MahaRental"
-            keyAlias = "keymyapp"
-            keyPassword = "MahaRental"
-        }
-    }
     namespace = "com.maharental.maharental_fix"
     compileSdk {
         version = release(36)
@@ -68,12 +60,7 @@ dependencies {
     androidTestImplementation(libs.androidx.espresso.core)
     implementation(platform("com.google.firebase:firebase-bom:32.7.0"))
     implementation("com.google.firebase:firebase-auth-ktx")
-    implementation("com.google.android.material:material:1.11.0")
+    implementation("com.google.android.material:material:1.12.0")
     implementation("com.github.bumptech.glide:glide:4.16.0")
 
-    testImplementation(libs.junit)
-    androidTestImplementation(libs.androidx.junit)
-    androidTestImplementation(libs.androidx.espresso.core)
-    implementation("com.google.android.material:material:1.12.0")
-    implementation("com.google.android.gms:play-services-auth:21.4.0")
 }
