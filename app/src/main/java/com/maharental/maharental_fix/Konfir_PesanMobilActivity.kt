@@ -114,11 +114,11 @@ class Konfir_PesanMobilActivity : AppCompatActivity() {
             val durasi = hitungSelisihHari(tanggalAmbil, tanggalKembali)
             val totalBiaya = durasi * kendaraan.harga
 
-            // ✅ simpan ke Firestore: history/{uid}/items/{autoId}
+            // simpan ke Firestore: history/{uid}/items/{autoId}
             val dataHistory = hashMapOf(
                 "nama" to kendaraan.nama,
                 "tipe" to kendaraan.tipe,
-                "harga" to totalBiaya,              // ✅ TOTAL (bukan per hari)
+                "harga" to totalBiaya,              // TOTAL (bukan per hari)
                 "gambar" to kendaraan.gambar,
                 "deskripsi" to kendaraan.deskripsi,
                 "jumlahUnit" to kendaraan.jumlahUnit,

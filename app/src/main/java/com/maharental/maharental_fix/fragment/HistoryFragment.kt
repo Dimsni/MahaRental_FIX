@@ -64,7 +64,7 @@ class HistoryFragment : Fragment() {
                     Kendaraan(
                         nama = nama,
                         tipe = tipe,
-                        harga = harga,          // ✅ sudah TOTAL
+                        harga = harga,          // sudah TOTAL
                         gambar = gambar,
                         deskripsi = deskripsi,
                         jumlahUnit = jumlahUnit
