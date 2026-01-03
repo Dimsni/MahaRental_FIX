@@ -1,8 +1,8 @@
 <resources>
     <string name="MahaRental">MahaRental</string>
     <string name="tagline_1">CEPAT, MUDAH DAN</string>
-    <string name="tagline_2">SOLUSI KELUARGA</string>
+    <string name="tagline_2">SOLUSI BERSAMA</string>
     <string name="mulai">MULAI</string>
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="hello_blank_fragment">Coming SOON</string>
 </resources>

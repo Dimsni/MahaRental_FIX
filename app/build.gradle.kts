@@ -5,6 +5,14 @@ plugins {
 }
 
 android {
+    signingConfigs {
+        getByName("debug") {
+            storeFile = file("C:\\MyKeystore\\MahaRental.jks")
+            storePassword = "MahaRental"
+            keyAlias = "keymyapp"
+            keyPassword = "MahaRental"
+        }
+    }
     namespace = "com.maharental.maharental_fix"
     compileSdk {
         version = release(36)
@@ -18,6 +26,7 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        signingConfig = signingConfigs.getByName("debug")
     }
 
     buildTypes {
@@ -38,9 +47,6 @@ android {
     }
     buildFeatures {
         viewBinding = true
-    }
-    buildFeatures {
-        viewBinding = true// <-- View Binding sudah aktif
     }
 }
 
@@ -63,4 +69,5 @@ dependencies {
     implementation("com.google.android.material:material:1.11.0")
     implementation("com.github.bumptech.glide:glide:4.16.0")
     implementation("com.google.android.material:material:1.12.0")
+    implementation("com.google.android.gms:play-services-auth:21.4.0")
 }
