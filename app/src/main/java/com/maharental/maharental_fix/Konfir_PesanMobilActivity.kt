@@ -34,6 +34,10 @@ class Konfir_PesanMobilActivity : AppCompatActivity() {
         binding = ActivityKonfirPesanMobilBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        binding.btnBack.setOnClickListener {
+            finish()
+        }
+
         // Ambil Data dari Intent
         val kendaraan = if (Build.VERSION.SDK_INT >= 33) {
             intent.getParcelableExtra("EXTRA_KENDARAAN", Kendaraan::class.java)

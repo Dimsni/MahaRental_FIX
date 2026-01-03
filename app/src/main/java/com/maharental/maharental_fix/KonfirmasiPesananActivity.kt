@@ -39,6 +39,10 @@ class KonfirmasiPesananActivity : AppCompatActivity() {
         binding = ActivityKonfirmasiPesananBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        binding.btnBack.setOnClickListener {
+            finish()
+        }
+
         // Klik area KTP untuk buka galeri
         binding.ivKtp.setOnClickListener {
             getImageAction.launch("image/*")
