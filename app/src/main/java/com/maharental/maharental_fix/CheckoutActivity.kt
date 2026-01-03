@@ -17,6 +17,10 @@ class CheckoutActivity : AppCompatActivity() {
         binding = ActivityCheckoutBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        binding.btnBack.setOnClickListener {
+            finish()
+        }
+
         binding.btnConfirm.setOnClickListener {
             val selectedId = binding.rgPaymentMethods.checkedRadioButtonId
 

@@ -27,10 +27,10 @@
         android:layout_marginBottom="24dp"/>
 
     <Button
-        android:id="@+id/btn_return_home"
+        android:id="@+id/btn_return_history"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Return Home"
+        android:text="Return History"
         android:layout_below="@id/tv_thank_you"
         android:layout_centerHorizontal="true"/>
 
